@@ -2,7 +2,7 @@
   <img src="https://img.shields.io/badge/Track-Economic_Empowerment_&_Education-blue" alt="Track Badge">
   <img src="https://img.shields.io/badge/Python-3.11-blue" alt="Python Badge">
   <img src="https://img.shields.io/badge/Accelerated-Apple_Silicon_MPS-orange" alt="Mac Badge">
-  <h1>🌍 VideoVoice 🗣️</h1>
+  <h1>🌍 VideoVoice 🗣️ -- Built for Claude-Hackathon hosted by Imperial College in just 2.5 hours using Google Antigravity</h1>
   <p><b>Education in every language. In every voice.</b></p>
 </div>
 <img width="1255" height="823" alt="Screenshot 2026-03-24 at 19 32 16" src="https://github.com/user-attachments/assets/fe7f2182-8137-4234-a63e-17f62680b66a" />
