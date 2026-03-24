@@ -1,0 +1,7 @@
+file '/Users/rafa/MscAi/claude_hackathon/tmp/tts_synced/synced_0000.wav'
+file '/Users/rafa/MscAi/claude_hackathon/tmp/tts_synced/silence_0001.wav'
+file '/Users/rafa/MscAi/claude_hackathon/tmp/tts_synced/synced_0001.wav'
+file '/Users/rafa/MscAi/claude_hackathon/tmp/tts_synced/silence_0002.wav'
+file '/Users/rafa/MscAi/claude_hackathon/tmp/tts_synced/synced_0002.wav'
+file '/Users/rafa/MscAi/claude_hackathon/tmp/tts_synced/silence_0003.wav'
+file '/Users/rafa/MscAi/claude_hackathon/tmp/tts_synced/synced_0003.wav'

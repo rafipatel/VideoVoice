@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VideoVoice — AI Video Translation for Everyone</title>
+  <meta name="description"
+    content="Break the language barrier in education. VideoVoice re-voices any educational video in the learner's native language — preserving the original speaker's voice." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ── Navigation ────────────────────────────────────── -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-logo">🌐 VideoVoice</div>
+      <div class="nav-links">
+        <a href="#how-it-works">How it works</a>
+        <a href="#demo" class="btn btn-ghost">Try demo</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Hero ──────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="container hero-content">
+      <div class="badge">Track 3 · Economic Empowerment &amp; Education</div>
+      <h1>Education in <span class="gradient-text">every language.</span><br />In every voice.</h1>
+      <p class="hero-sub">
+        We understand the world differently in our mother tongue. Concepts click faster,
+        ideas sink deeper. Quality learning shouldn't be gatekept by language — so VideoVoice
+        re-voices any educational video in the learner's native language, preserving the
+        original speaker's voice, in seconds.
+      </p>
+      <div class="hero-cta">
+        <a href="#demo" class="btn btn-primary">✨ Try it live</a>
+        <a href="#how-it-works" class="btn btn-ghost">See how it works</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="wave-bar" style="--h:40%;--d:0s"></div>
+      <div class="wave-bar" style="--h:70%;--d:.1s"></div>
+      <div class="wave-bar" style="--h:55%;--d:.2s"></div>
+      <div class="wave-bar" style="--h:90%;--d:.3s"></div>
+      <div class="wave-bar" style="--h:45%;--d:.4s"></div>
+      <div class="wave-bar" style="--h:80%;--d:.5s"></div>
+      <div class="wave-bar" style="--h:60%;--d:.6s"></div>
+      <div class="wave-bar" style="--h:75%;--d:.7s"></div>
+      <div class="wave-bar" style="--h:50%;--d:.8s"></div>
+      <div class="wave-bar" style="--h:85%;--d:.9s"></div>
+    </div>
+  </section>
+
+  <!-- ── Stats ─────────────────────────────────────────── -->
+  <section class="stats">
+    <div class="container stats-grid">
+      <div class="stat-card reveal">
+        <div class="stat-num">7,000+</div>
+        <div class="stat-label">Languages spoken worldwide</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-num">72%</div>
+        <div class="stat-label">Of online content is in English</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-num">3.3B</div>
+        <div class="stat-label">People excluded by language barriers</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── How it works ──────────────────────────────────── -->
+  <section id="how-it-works" class="section">
+    <div class="container">
+      <h2 class="section-title">How it works</h2>
+      <p class="section-sub">Six steps, fully automated, end-to-end.</p>
+      <div class="steps-grid">
+        <div class="step-card reveal">
+          <div class="step-icon">🎬</div>
+          <div class="step-num">01</div>
+          <h3>Upload Video</h3>
+          <p>Drop in any short educational video — lecture, tutorial, explainer.</p>
+        </div>
+        <div class="step-card reveal">
+          <div class="step-icon">🔊</div>
+          <div class="step-num">02</div>
+          <h3>Audio Extraction</h3>
+          <p>FFmpeg strips the audio track as a clean 16 kHz WAV for processing.</p>
+        </div>
+        <div class="step-card reveal">
+          <div class="step-icon">📝</div>
+          <div class="step-num">03</div>
+          <h3>Transcription</h3>
+          <p>Whisper Large V3 via Pollinations API transcribes speech with precise timestamps.</p>
+        </div>
+        <div class="step-card reveal">
+          <div class="step-icon">🌍</div>
+          <div class="step-num">04</div>
+          <h3>Translation</h3>
+          <p>GPT-4o via Pollinations translates each subtitle segment into the target language.</p>
+        </div>
+        <div class="step-card reveal">
+          <div class="step-icon">🗣️</div>
+          <div class="step-num">05</div>
+          <h3>Voice Cloning + TTS</h3>
+          <p>Chatterbox clones the speaker's voice and synthesises the translated speech.</p>
+        </div>
+        <div class="step-card reveal">
+          <div class="step-icon">⏱️</div>
+          <div class="step-num">06</div>
+          <h3>Sync &amp; Export</h3>
+          <p>Each audio segment is stretched or padded to match the original timing, then merged back into the video.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Tech stack ────────────────────────────────────── -->
+  <section class="section section-dark">
+    <div class="container">
+      <h2 class="section-title">Powered by</h2>
+      <div class="tech-grid">
+        <div class="tech-pill reveal">🎙 Pollinations Whisper Large V3</div>
+        <div class="tech-pill reveal">💬 Pollinations GPT-4o</div>
+        <div class="tech-pill reveal">🎤 Resemble AI Chatterbox</div>
+        <div class="tech-pill reveal">🎞 FFmpeg</div>
+        <div class="tech-pill reveal">🍎 Apple MLX (M3)</div>
+        <div class="tech-pill reveal">🖥 Gradio</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Live Demo ──────────────────────────────────────── -->
+  <section id="demo" class="section">
+    <div class="container">
+      <h2 class="section-title">Live Demo</h2>
+      <p class="section-sub">Try it right here — upload a video and pick a language.</p>
+      <div class="demo-frame-wrapper reveal">
+        <iframe id="gradio-iframe" src="http://localhost:7860" title="VideoVoice Demo" loading="lazy"></iframe>
+        <div class="demo-fallback" id="demo-fallback">
+          <p>🚀 Start the demo server first:</p>
+          <code>conda activate video-translate &amp;&amp; python app.py</code>
+          <p style="margin-top:8px;font-size:.85rem;opacity:.6">Then refresh this page.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="nav-logo">🌐 VideoVoice</div>
+      <p>Built for the Hackathon · Track 3: Economic Empowerment &amp; Education</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+
+</html>

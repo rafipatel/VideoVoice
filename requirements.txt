@@ -1,0 +1,9 @@
+openai
+requests
+python-dotenv
+chatterbox-tts
+pydub
+ffmpeg-python
+mlx-whisper
+tqdm
+gradio
