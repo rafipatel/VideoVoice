@@ -5,6 +5,7 @@
   <h1>🌍 VideoVoice 🗣️</h1>
   <p><b>Education in every language. In every voice.</b></p>
 </div>
+<img width="1255" height="823" alt="Screenshot 2026-03-24 at 19 32 16" src="https://github.com/user-attachments/assets/fe7f2182-8137-4234-a63e-17f62680b66a" />
 
 <br>
 
