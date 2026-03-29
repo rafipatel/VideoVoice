@@ -215,7 +215,7 @@ if (translateBtn) {
     }
 
     // Switch to processing view
-    showPanel('processing');
+    setState('processing');
 
     // Build form data
     const formData = new FormData();
@@ -245,7 +245,7 @@ if (translateBtn) {
       streamProgress(job_id, targetLang);
     } catch (err) {
       showToast(err.message, 'error');
-      showPanel('input');
+      setState('input');
     }
   });
 }
@@ -289,27 +289,52 @@ function streamProgress(jobId, targetLang) {
       $('#result-meta').textContent = `Translated to ${targetLang} · Processed in ${data.elapsed || '—'}s`;
       $('#download-btn').href = `${API_BASE}/api/jobs/${jobId}/result`;
 
-      setTimeout(() => showPanel('result'), 600);
+      // Swap skeleton for real video
+      document.querySelector('.result-skeleton').style.display = 'none';
+      document.querySelector('.result-content-wrap').style.display = 'block';
+
+      setTimeout(() => setState('result'), 600);
     }
 
     if (data.type === 'error') {
       evtSource.close();
       showToast(data.message || 'Pipeline error occurred', 'error');
-      showPanel('input');
+      setState('input');
     }
   };
 
   evtSource.onerror = () => {
     evtSource.close();
     showToast('Connection lost. Please try again.', 'error');
-    showPanel('input');
+    setState('input');
   };
 }
 
-function showPanel(panel) {
-  appInput.style.display = panel === 'input' ? '' : 'none';
-  appProcessing.style.display = panel === 'processing' ? '' : 'none';
-  appResult.style.display = panel === 'result' ? '' : 'none';
+function setState(state) {
+  const container = document.querySelector('.app-container');
+  container.classList.remove('state-input', 'state-processing', 'state-result');
+  container.classList.add(`state-${state}`);
+
+  if (state !== 'input') {
+    container.style.maxWidth = '100%';
+  } else {
+    container.style.maxWidth = '640px';
+    // If going back to input, reset skeleton visibility
+    const skeleton = document.querySelector('.result-skeleton');
+    const contentWrap = document.querySelector('.result-content-wrap');
+    if (skeleton && contentWrap) {
+      skeleton.style.display = '';
+      contentWrap.style.display = 'none';
+    }
+  }
+
+  // Disable input controls during processing/result
+  const isNotInput = state !== 'input';
+  $('#file-input').disabled = isNotInput;
+  $('#video-url').disabled = isNotInput;
+  $('#translate-btn').disabled = isNotInput;
+  $('#source-lang').disabled = isNotInput;
+  $('#target-lang').disabled = isNotInput;
 }
 
 // New video button
@@ -318,7 +343,7 @@ if (newVideoBtn) {
   newVideoBtn.addEventListener('click', () => {
     clearFile();
     $('#video-url').value = '';
-    showPanel('input');
+    setState('input');
   });
 }
 

@@ -782,7 +782,7 @@ body {
    APP / TRY NOW
    ════════════════════════════════════════════════════════ */
 .app-container {
-  max-width: 640px;
+  max-width: 640px; /* expanded via JS to 100% on state change */
   margin: 0 auto;
   background: var(--surface);
   border: 1px solid var(--border);
@@ -791,6 +791,11 @@ body {
   box-shadow:
     0 0 0 1px rgba(255,255,255,0.02),
     0 20px 60px rgba(0,0,0,.4);
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 0;
+  transition: max-width 0s; /* do NOT animate max-width — use panel transforms instead */
 }
 
 /* Tab switcher */
@@ -833,9 +838,92 @@ body {
 .tab-content.active { display: block; }
 
 /* App panel inner */
-.app-panel { padding: 28px; }
-.app-panel[style*="display:none"],
-.app-panel[style*="display: none"] { display: none !important; }
+.app-panel {
+  padding: 28px;
+  flex: 0 0 0%;
+  width: 0;
+  opacity: 0;
+  overflow: hidden;
+  transform: translateX(20px);
+  transition:
+    flex 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.4s ease,
+    transform 0.4s ease,
+    padding 0.45s ease;
+  pointer-events: none;
+}
+
+/* Left panel always visible from start */
+#app-input {
+  flex: 0 0 100%;
+  width: 100%;
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+/* STATE: processing — left shrinks, center appears, right skeleton appears */
+.state-processing #app-input {
+  flex: 0 0 32%;
+  opacity: 0.55;
+  pointer-events: none; /* dim + block interaction */
+  transform: none;
+}
+
+.state-processing #app-processing {
+  flex: 0 0 36%;
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+  transition-delay: 0.1s; /* stagger: center arrives second */
+}
+
+.state-processing #app-result {
+  flex: 0 0 32%;
+  opacity: 1;
+  transform: none;
+  pointer-events: none;
+  transition-delay: 0.2s; /* stagger: right arrives third */
+}
+
+/* STATE: result — right panel gets focus */
+.state-result #app-input {
+  flex: 0 0 28%;
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.state-result #app-processing {
+  flex: 0 0 28%;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.state-result #app-result {
+  flex: 0 0 44%; /* right panel gets extra weight */
+  opacity: 1;
+  pointer-events: auto;
+  transition-delay: 0s;
+}
+
+/* Skeleton placeholder */
+.result-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.result-skeleton .skel-bar {
+  background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 6px;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
 
 /* URL input */
 .url-input-wrap { margin-bottom: 16px; }
@@ -1430,6 +1518,30 @@ body {
 /* ════════════════════════════════════════════════════════
    RESPONSIVE
    ════════════════════════════════════════════════════════ */
+@media (max-width: 999px) {
+  .app-container {
+    flex-direction: column;
+    max-width: 100%;
+  }
+
+  .app-panel {
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    /* swap width animation for vertical slide */
+    transform: translateY(16px);
+    transition:
+      opacity 0.4s ease,
+      transform 0.4s ease;
+  }
+
+  .state-processing #app-processing,
+  .state-processing #app-result,
+  .state-result #app-result {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 @media (max-width: 900px) {
   .features-grid { grid-template-columns: repeat(2, 1fr); }
   .demos-grid { grid-template-columns: repeat(2, 1fr); }
