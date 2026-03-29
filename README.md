@@ -1,96 +1,163 @@
-<div align="center">
-  <img src="https://img.shields.io/badge/Track-Economic_Empowerment_&_Education-blue" alt="Track Badge">
-  <img src="https://img.shields.io/badge/Python-3.11-blue" alt="Python Badge">
-  <img src="https://img.shields.io/badge/Accelerated-Apple_Silicon_MPS-orange" alt="Mac Badge">
-  <h1>🌍 VideoVoice 🗣️</h1>
-  <p><b>Education in every language. In every voice.</b></p>
-</div>
+# VideoVoice
 
-<br>
+**AI-powered short video translation with zero-shot voice cloning.**
 
-**VideoVoice** is an end-to-end, fully automated video translation pipeline built for Track 3 (Economic Empowerment & Education). It takes any educational video, precise-transcribes it, translates the dialogue natively into one of 23 supported languages, and synthesizes a **Zero-Shot Voice Clone** of the original educator speaking their new language. 
-
-The original visual timestamps are retained, and the new multilingual audio is dynamically time-stretched or padded to perfectly sync with the original speaker's video without drift.
-
-## 🚀 Features
-
-* **Autonomous Pipeline:** Drag-and-drop a `.mp4` and get a fully translated MP4 out. No intermediate steps required.
-* **Flawless Fallback Architecture:** Cloud-API transcription using `whisper-large-v3` with an automatic, lightning-fast local fallback to Apple's `mlx-whisper` (Whisper-Medium) natively on your M3 GPU.
-* **Intelligent JSON Prompting:** Integrates Pollinations.AI for deep translation capabilities, ensuring JSON array data structures remain perfect across translations.
-* **Multilingual Voice Cloning:** Leverages the open-source **Resemble AI Chatterbox Multilingual** engine, natively patched and accelerated using PyTorch MPS on Apple Silicon.
-* **Dynamic Time Alignment:** Features a robust audio sync engine using recursive temporal math and `ffmpeg/pydub` cross-fading to enforce frame-accurate alignments.
-* **Premium Web UI:** Includes a beautiful Vanilla JS dark-mode frontend housing the interactive Gradio demo application.
+Translate any short video (≤60s) into 23+ languages while preserving the original speaker's voice. Paste an Instagram Reel, YouTube Short, or upload any video file.
 
 ---
 
-## 🛠️ Architecture (The 6-Step Pipeline)
-The pipeline is entirely modular and broken down into `steps/`:
-1. `s1_extract_audio.py` - Rips a 16kHz Mono WAV sequence from the video.
-2. `s2_transcribe.py` - Cloud transcribes (or MLX local) for word/phrase-level timestamps.
-3. `s3_translate.py` - Translates transcribed text array while preserving semantic meaning and technical jargon.
-4. `s4_tts.py` - Voice-clones the original audio and synthesizes translated strings into raw waveform chunks.
-5. `s5_sync.py` - Dynamically time-stretches/pads synthesized chunks to match original $\Delta t$ durations and stitches them.
-6. `s6_merge.py` - Injects the new synthesized audio stream back into the visual MP4 frame-losslessly.
+## How It Works
 
----
+1. **Upload or Paste URL** — Drop a video file or paste a social media link
+2. **AI Translates & Clones** — Our 6-step pipeline transcribes, translates, and synthesizes new speech using a voice clone of the original speaker
+3. **Preview & Download** — Watch your translated video and download in full quality
 
-## 💻 Tech Stack
-* **Python, JS, HTML, CSS**
-* **Frameworks:** Gradio (Backend UI), custom frontend
-* **APIs:** Pollinations.AI API
-* **Local ML:** `mlx-whisper`, `chatterbox-multilingual` TTS, `pytorch`
-* **Media:** `ffmpeg`, `ffmpeg-python`, `pydub`
+### Pipeline Architecture
 
----
-
-## ⚙️ Setup & Installation
-
-**1. Clone the repository:**
-```bash
-git clone https://github.com/your-username/videovoice.git
-cd videovoice
+```
+Video → Extract Audio → Whisper Transcription → LLM Translation
+      → Chatterbox Voice Clone + TTS → Time-Sync → Final Merge
 ```
 
-**2. Setup the Conda Environment:**
-This project relies on `torch`, `gradio`, and heavy audio dependencies. An isolated environment is required.
-```bash
-conda create -n video-translate python=3.11 -y
-conda activate video-translate
-```
+| Step | Component | Description |
+|------|-----------|-------------|
+| 1 | FFmpeg | Extract audio track from video |
+| 2 | Whisper Large V3 | Transcribe with word-level timestamps |
+| 3 | GPT-4o-mini | Context-aware subtitle translation |
+| 4 | Chatterbox Multilingual | Zero-shot voice cloning + TTS synthesis |
+| 5 | Dynamic Time-Stretch | Align translated audio to original timing |
+| 6 | FFmpeg | Merge new audio track back into video |
 
-**3. Install Dependencies:**
+---
+
+## Quick Start
+
+### Prerequisites
+
+- Python 3.10+
+- FFmpeg installed (`brew install ffmpeg` on macOS)
+- OpenAI API key
+
+### Setup
+
 ```bash
-# Core python packages
+# Clone the repo
+git clone https://github.com/yourusername/VideoVoice.git
+cd VideoVoice
+
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate
+
+# Install dependencies
 pip install -r requirements.txt
 
-# You MUST install ffmpeg on your system for video merging to work:
-# macOS
-brew install ffmpeg
+# Configure environment
+cp .env.example .env
+# Edit .env with your API keys
 ```
 
-**4. Environment Variables (`.env`)**
-Create a `.env` file in the root folder with your Pollinations API keys (used for cloud transcribing and translating).
-```env
-POLLEN_API_KEY=your_key_here
-HF_TOKEN=your_huggingface_token  # (Optional: for pulling specific models)
+### Run the Server
+
+```bash
+python server.py
+```
+
+The app will be available at [http://localhost:8000](http://localhost:8000).
+
+### CLI Usage
+
+You can also run the pipeline directly:
+
+```bash
+python pipeline.py --input data/my_video.mp4 --target-lang Spanish
 ```
 
 ---
 
-## ▶️ Usage
+## API Reference
 
-### Using the Web UI (Gradio)
-To run the interactive UI with streaming progress logs:
-```bash
-conda activate video-translate
-python app.py
-```
-* **Frontend Site:** Open `frontend/index.html` in your web browser for the full premium experience.
-* **Direct UI:** Open `http://localhost:7860` in your web browser.
+### `POST /api/jobs`
 
-### Using the CLI Pipeline
-If you prefer running headless or batch-processing translation jobs:
-```bash
-conda activate video-translate
-python pipeline.py --input data/test_video.mp4 --output data/translated_video.mp4 --target-language "Spanish"
+Submit a video for translation.
+
+**Form Data:**
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `file` | File | * | Video file (MP4, MOV, WebM, ≤50MB) |
+| `url` | String | * | Instagram Reel or YouTube Short URL |
+| `target_language` | String | Yes | Target language name (e.g., "Spanish") |
+| `source_language` | String | No | Source language ISO code (default: "en") |
+
+\* Either `file` or `url` is required.
+
+**Response:**
+```json
+{ "job_id": "abc123", "status": "queued" }
 ```
+
+### `GET /api/jobs/{job_id}`
+
+SSE endpoint streaming real-time pipeline progress.
+
+**Events:**
+```json
+{ "type": "progress", "message": "Step 3/6: Translating...", "step": 3 }
+{ "type": "complete", "elapsed": 47 }
+{ "type": "error", "message": "Pipeline failed" }
+```
+
+### `GET /api/jobs/{job_id}/result`
+
+Download the translated video (MP4).
+
+---
+
+## Supported Languages
+
+Spanish, French, German, Hindi, Portuguese, Italian, Japanese, Chinese, Arabic, Korean — and more.
+
+---
+
+## Project Structure
+
+```
+VideoVoice/
+├── server.py            # FastAPI backend
+├── pipeline.py          # Core translation pipeline
+├── steps/               # Pipeline step modules
+│   ├── s1_extract_audio.py
+│   ├── s2_transcribe.py
+│   ├── s3_translate.py
+│   ├── s4_tts.py
+│   ├── s5_sync.py
+│   └── s6_merge.py
+├── frontend/            # Static web UI
+│   ├── index.html
+│   ├── style.css
+│   └── app.js
+├── requirements.txt
+├── .env.example
+└── README.md
+```
+
+---
+
+## Deployment
+
+### AWS (Recommended for GPU)
+
+```bash
+# On a g4dn.xlarge instance
+sudo apt update && sudo apt install -y ffmpeg
+pip install -r requirements.txt
+python server.py
+```
+
+Recommended: use `systemd` service for auto-restart, CloudFront for CDN, S3 for video storage with 24h auto-delete lifecycle policy.
+
+---
+
+## License
+
+MIT License — see [LICENSE](LICENSE).

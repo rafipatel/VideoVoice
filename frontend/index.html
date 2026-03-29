@@ -4,73 +4,137 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VideoVoice — AI Video Translation for Everyone</title>
+  <title>VideoVoice — Translate Any Short Video in the Creator's Own Voice</title>
   <meta name="description"
-    content="Break the language barrier in education. VideoVoice re-voices any educational video in the learner's native language — preserving the original speaker's voice." />
+    content="Paste a link or upload a short video. VideoVoice translates it into 23+ languages using AI voice cloning — preserving the original creator's voice." />
+  <meta name="theme-color" content="#000000" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
     rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
+  <!-- ── Dot grid background ───────────────────────────── -->
+  <div class="dot-grid" aria-hidden="true"></div>
 
   <!-- ── Navigation ────────────────────────────────────── -->
-  <nav class="nav">
+  <nav class="nav" id="navbar">
     <div class="nav-inner">
-      <div class="nav-logo">🌐 VideoVoice</div>
+      <a href="#" class="nav-logo">
+        <span class="logo-icon">▶</span>
+        <span class="logo-text">VideoVoice</span>
+      </a>
       <div class="nav-links">
         <a href="#how-it-works">How it works</a>
-        <a href="#demo" class="btn btn-ghost">Try demo</a>
+        <a href="#demos">Demos</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#" class="cmd-trigger-btn" id="cmd-trigger" title="Search (⌘K)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <span class="cmd-trigger-kbd">⌘K</span>
+        </a>
+        <a href="#app" class="btn btn-primary btn-sm">Try Now — Free</a>
       </div>
+      <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-nav" id="mobile-nav">
+      <a href="#how-it-works">How it works</a>
+      <a href="#demos">Demos</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#app" class="btn btn-primary">Try Now — Free</a>
     </div>
   </nav>
 
   <!-- ── Hero ──────────────────────────────────────────── -->
-  <section class="hero">
+  <section class="hero" id="hero">
     <div class="hero-glow"></div>
+    <div class="hero-glow-2"></div>
     <div class="container hero-content">
-      <div class="badge">Track 3 · Economic Empowerment &amp; Education</div>
-      <h1>Education in <span class="gradient-text">every language.</span><br />In every voice.</h1>
+      <div class="badge">
+        <span class="badge-dot"></span>
+        Now supporting 23+ languages
+      </div>
+      <h1>
+        Translate any short video.<br />
+        <span class="gradient-text typing-text" id="typing-target">In the creator's own voice.</span>
+      </h1>
       <p class="hero-sub">
-        We understand the world differently in our mother tongue. Concepts click faster,
-        ideas sink deeper. Quality learning shouldn't be gatekept by language — so VideoVoice
-        re-voices any educational video in the learner's native language, preserving the
-        original speaker's voice, in seconds.
+        Paste an Instagram Reel or YouTube Short link — or upload any video under 60 seconds.
+        Our AI transcribes, translates, and re-voices the video using a zero-shot clone of the
+        original speaker. Same person. New language. Seconds.
       </p>
       <div class="hero-cta">
-        <a href="#demo" class="btn btn-primary">✨ Try it live</a>
-        <a href="#how-it-works" class="btn btn-ghost">See how it works</a>
+        <a href="#app" class="btn btn-primary btn-lg" id="hero-cta-btn">
+          Try Now for Free
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </a>
+        <a href="#how-it-works" class="btn btn-ghost btn-lg">See how it works</a>
       </div>
     </div>
-    <div class="hero-visual">
-      <div class="wave-bar" style="--h:40%;--d:0s"></div>
-      <div class="wave-bar" style="--h:70%;--d:.1s"></div>
-      <div class="wave-bar" style="--h:55%;--d:.2s"></div>
-      <div class="wave-bar" style="--h:90%;--d:.3s"></div>
-      <div class="wave-bar" style="--h:45%;--d:.4s"></div>
-      <div class="wave-bar" style="--h:80%;--d:.5s"></div>
-      <div class="wave-bar" style="--h:60%;--d:.6s"></div>
-      <div class="wave-bar" style="--h:75%;--d:.7s"></div>
-      <div class="wave-bar" style="--h:50%;--d:.8s"></div>
-      <div class="wave-bar" style="--h:85%;--d:.9s"></div>
+
+    <!-- Terminal preview -->
+    <div class="container">
+      <div class="terminal-preview reveal">
+        <div class="terminal-bar">
+          <div class="terminal-dots">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+          </div>
+          <span class="terminal-title">videovoice — processing</span>
+          <div class="terminal-status">
+            <span class="pulse-dot"></span>
+            Live
+          </div>
+        </div>
+        <div class="terminal-body" id="hero-terminal">
+          <div class="terminal-line"><span class="t-step">STEP 1/6</span> <span class="t-muted">Extracting audio from video...</span></div>
+          <div class="terminal-line"><span class="t-check">✓</span> Audio extracted — 16kHz mono WAV</div>
+          <div class="terminal-line"><span class="t-step">STEP 2/6</span> <span class="t-muted">Transcribing with Whisper Large V3...</span></div>
+          <div class="terminal-line"><span class="t-check">✓</span> 8 segments transcribed</div>
+          <div class="terminal-line"><span class="t-step">STEP 3/6</span> <span class="t-muted">Translating to Spanish...</span></div>
+          <div class="terminal-line"><span class="t-check">✓</span> Translation complete</div>
+          <div class="terminal-line"><span class="t-step">STEP 4/6</span> <span class="t-muted">Voice cloning + TTS synthesis...</span></div>
+          <div class="terminal-line"><span class="t-check">✓</span> 8 segments synthesised (Chatterbox Multilingual)</div>
+          <div class="terminal-line"><span class="t-step">STEP 5/6</span> <span class="t-muted">Syncing audio to original timestamps...</span></div>
+          <div class="terminal-line"><span class="t-check">✓</span> Audio synced — frame-accurate alignment</div>
+          <div class="terminal-line"><span class="t-step">STEP 6/6</span> <span class="t-muted">Merging translated audio into video...</span></div>
+          <div class="terminal-line complete"><span class="t-done">✅</span> Done! Video translated to Spanish in 47s</div>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- ── Stats ─────────────────────────────────────────── -->
-  <section class="stats">
-    <div class="container stats-grid">
-      <div class="stat-card reveal">
-        <div class="stat-num">7,000+</div>
-        <div class="stat-label">Languages spoken worldwide</div>
-      </div>
-      <div class="stat-card reveal">
-        <div class="stat-num">72%</div>
-        <div class="stat-label">Of online content is in English</div>
-      </div>
-      <div class="stat-card reveal">
-        <div class="stat-num">3.3B</div>
-        <div class="stat-label">People excluded by language barriers</div>
+  <section class="stats-section">
+    <div class="container">
+      <div class="stats-bar">
+        <div class="stat-item reveal">
+          <div class="stat-value">23+</div>
+          <div class="stat-label">Languages supported</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item reveal">
+          <div class="stat-value">60s</div>
+          <div class="stat-label">Max video duration</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item reveal">
+          <div class="stat-value">Zero‑Shot</div>
+          <div class="stat-label">Voice cloning</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item reveal">
+          <div class="stat-value">&lt;2min</div>
+          <div class="stat-label">Processing time</div>
+        </div>
       </div>
     </div>
   </section>
@@ -78,77 +142,501 @@
   <!-- ── How it works ──────────────────────────────────── -->
   <section id="how-it-works" class="section">
     <div class="container">
-      <h2 class="section-title">How it works</h2>
-      <p class="section-sub">Six steps, fully automated, end-to-end.</p>
+      <div class="section-label reveal">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+        </svg>
+        HOW IT WORKS
+      </div>
+      <h2 class="section-title reveal">Three steps. Fully automated.</h2>
+      <p class="section-sub reveal">Upload your video, pick a language, and let our AI handle the rest.</p>
+
       <div class="steps-grid">
         <div class="step-card reveal">
-          <div class="step-icon">🎬</div>
-          <div class="step-num">01</div>
-          <h3>Upload Video</h3>
-          <p>Drop in any short educational video — lecture, tutorial, explainer.</p>
+          <div class="step-number">01</div>
+          <div class="step-icon-wrap">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" />
+            </svg>
+          </div>
+          <h3>Upload or Paste Link</h3>
+          <p>Drop a video file or paste an Instagram Reel / YouTube Short URL. We accept any video up to 60 seconds.</p>
         </div>
-        <div class="step-card reveal">
-          <div class="step-icon">🔊</div>
-          <div class="step-num">02</div>
-          <h3>Audio Extraction</h3>
-          <p>FFmpeg strips the audio track as a clean 16 kHz WAV for processing.</p>
+
+        <div class="step-connector reveal">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+            opacity="0.3">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
         </div>
+
         <div class="step-card reveal">
-          <div class="step-icon">📝</div>
-          <div class="step-num">03</div>
-          <h3>Transcription</h3>
-          <p>Whisper Large V3 via Pollinations API transcribes speech with precise timestamps.</p>
+          <div class="step-number">02</div>
+          <div class="step-icon-wrap">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 6v6l4 2" />
+            </svg>
+          </div>
+          <h3>AI Translates & Clones</h3>
+          <p>Our pipeline transcribes, translates, and synthesizes new speech using a voice clone of the original speaker.</p>
         </div>
-        <div class="step-card reveal">
-          <div class="step-icon">🌍</div>
-          <div class="step-num">04</div>
-          <h3>Translation</h3>
-          <p>GPT-4o via Pollinations translates each subtitle segment into the target language.</p>
+
+        <div class="step-connector reveal">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+            opacity="0.3">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
         </div>
+
         <div class="step-card reveal">
-          <div class="step-icon">🗣️</div>
-          <div class="step-num">05</div>
-          <h3>Voice Cloning + TTS</h3>
-          <p>Chatterbox clones the speaker's voice and synthesises the translated speech.</p>
-        </div>
-        <div class="step-card reveal">
-          <div class="step-icon">⏱️</div>
-          <div class="step-num">06</div>
-          <h3>Sync &amp; Export</h3>
-          <p>Each audio segment is stretched or padded to match the original timing, then merged back into the video.
-          </p>
+          <div class="step-number">03</div>
+          <div class="step-icon-wrap">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <polygon points="5 3 19 12 5 21 5 3" />
+            </svg>
+          </div>
+          <h3>Preview & Download</h3>
+          <p>Watch your translated video right here. Download it in full quality and share it with the world.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ── Tech stack ────────────────────────────────────── -->
+  <!-- ── Features ──────────────────────────────────────── -->
   <section class="section section-dark">
     <div class="container">
-      <h2 class="section-title">Powered by</h2>
-      <div class="tech-grid">
-        <div class="tech-pill reveal">🎙 Pollinations Whisper Large V3</div>
-        <div class="tech-pill reveal">💬 Pollinations GPT-4o</div>
-        <div class="tech-pill reveal">🎤 Resemble AI Chatterbox</div>
-        <div class="tech-pill reveal">🎞 FFmpeg</div>
-        <div class="tech-pill reveal">🍎 Apple MLX (M3)</div>
-        <div class="tech-pill reveal">🖥 Gradio</div>
+      <div class="section-label reveal">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+        </svg>
+        POWERED BY
+      </div>
+      <h2 class="section-title reveal">State-of-the-art AI pipeline</h2>
+      <p class="section-sub reveal">Six ML models working in harmony — from transcription to voice cloning.</p>
+
+      <div class="features-grid">
+        <div class="feature-card reveal">
+          <div class="feature-icon">🎙</div>
+          <h3>Whisper Large V3</h3>
+          <p>Precise transcription with word-level timestamps via OpenAI's most accurate speech model.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">🌍</div>
+          <h3>LLM Translation</h3>
+          <p>Context-aware subtitle translation that preserves meaning, idioms, and technical terms.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">🗣️</div>
+          <h3>Chatterbox Voice Clone</h3>
+          <p>Zero-shot multilingual voice cloning — the translated speech sounds like the original speaker.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">⏱️</div>
+          <h3>Frame-Accurate Sync</h3>
+          <p>Dynamic time-stretching ensures the new audio perfectly aligns with the original video timing.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">🔗</div>
+          <h3>URL Import</h3>
+          <p>Paste any Instagram Reel or YouTube Short link — we'll download and process it automatically.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">📦</div>
+          <h3>Lossless Export</h3>
+          <p>Original video frames are never re-encoded. Only the audio track is replaced for maximum quality.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ── Live Demo ──────────────────────────────────────── -->
-  <section id="demo" class="section">
+  <!-- ── Demo Videos ───────────────────────────────────── -->
+  <section id="demos" class="section">
     <div class="container">
-      <h2 class="section-title">Live Demo</h2>
-      <p class="section-sub">Try it right here — upload a video and pick a language.</p>
-      <div class="demo-frame-wrapper reveal">
-        <iframe id="gradio-iframe" src="http://localhost:7860" title="VideoVoice Demo" loading="lazy"></iframe>
-        <div class="demo-fallback" id="demo-fallback">
-          <p>🚀 Start the demo server first:</p>
-          <code>conda activate video-translate &amp;&amp; python app.py</code>
-          <p style="margin-top:8px;font-size:.85rem;opacity:.6">Then refresh this page.</p>
+      <div class="section-label reveal">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="23 7 16 12 23 17 23 7" />
+          <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+        </svg>
+        DEMO VIDEOS
+      </div>
+      <h2 class="section-title reveal">See it in action</h2>
+      <p class="section-sub reveal">Real translations. Same voice. Different language.</p>
+
+      <div class="demos-grid">
+        <div class="demo-card reveal">
+          <div class="demo-video-placeholder">
+            <div class="demo-play-btn">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="5 3 19 12 5 21 5 3" />
+              </svg>
+            </div>
+            <div class="demo-badge">English → Spanish</div>
+          </div>
+          <div class="demo-info">
+            <h4>Tech Tutorial</h4>
+            <p>Educational content translated with voice preservation</p>
+          </div>
         </div>
+
+        <div class="demo-card reveal">
+          <div class="demo-video-placeholder">
+            <div class="demo-play-btn">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="5 3 19 12 5 21 5 3" />
+              </svg>
+            </div>
+            <div class="demo-badge">English → French</div>
+          </div>
+          <div class="demo-info">
+            <h4>Product Review</h4>
+            <p>Short-form content ready for global audiences</p>
+          </div>
+        </div>
+
+        <div class="demo-card reveal">
+          <div class="demo-video-placeholder">
+            <div class="demo-play-btn">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="5 3 19 12 5 21 5 3" />
+              </svg>
+            </div>
+            <div class="demo-badge">English → Hindi</div>
+          </div>
+          <div class="demo-info">
+            <h4>Cooking Short</h4>
+            <p>Cultural content that resonates in any language</p>
+          </div>
+        </div>
+      </div>
+
+      <p class="demos-coming">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+        </svg>
+        Demo videos coming soon — check back for real before & after comparisons
+      </p>
+    </div>
+  </section>
+
+  <!-- ── App / Try Now ─────────────────────────────────── -->
+  <section id="app" class="section section-dark">
+    <div class="container">
+      <div class="section-label reveal">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+        </svg>
+        TRY IT NOW
+      </div>
+      <h2 class="section-title reveal">Translate your first video — free</h2>
+      <p class="section-sub reveal">No account needed. Paste a link or upload a file. Get your translated video in under 2 minutes.</p>
+
+      <div class="app-container reveal">
+        <!-- Input state -->
+        <div class="app-panel" id="app-input">
+          <!-- Tab switcher -->
+          <div class="input-tabs">
+            <button class="tab-btn active" data-tab="url" id="tab-url">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/>
+                <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/>
+              </svg>
+              Paste URL
+            </button>
+            <button class="tab-btn" data-tab="upload" id="tab-upload">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+              </svg>
+              Upload File
+            </button>
+          </div>
+
+          <!-- URL input -->
+          <div class="tab-content active" id="content-url">
+            <div class="url-input-wrap">
+              <input type="url" id="video-url" class="url-input"
+                placeholder="Paste Instagram Reel or YouTube Short URL..." autocomplete="off" />
+              <div class="url-platforms">
+                <span class="platform-tag">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/></svg>
+                  Instagram Reels
+                </span>
+                <span class="platform-tag">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                  YouTube Shorts
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- File upload -->
+          <div class="tab-content" id="content-upload">
+            <div class="drop-zone" id="drop-zone">
+              <div class="drop-zone-content">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                  class="drop-icon">
+                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" />
+                </svg>
+                <p class="drop-text">Drag & drop your video here</p>
+                <p class="drop-hint">or click to browse · MP4, MOV, WebM · Max 50MB · Under 60s</p>
+                <input type="file" id="file-input" accept="video/mp4,video/quicktime,video/webm" hidden />
+              </div>
+              <div class="drop-zone-file" id="file-preview" style="display:none">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="23 7 16 12 23 17 23 7"/>
+                  <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                </svg>
+                <span id="file-name">video.mp4</span>
+                <button class="file-remove" id="file-remove" aria-label="Remove file">✕</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Language selector -->
+          <div class="language-row">
+            <div class="lang-select-wrap">
+              <label for="source-lang">From</label>
+              <select id="source-lang" class="lang-select">
+                <option value="en" selected>English</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+                <option value="de">German</option>
+                <option value="hi">Hindi</option>
+                <option value="pt">Portuguese</option>
+                <option value="it">Italian</option>
+                <option value="ja">Japanese</option>
+                <option value="zh">Chinese</option>
+                <option value="ar">Arabic</option>
+              </select>
+            </div>
+            <div class="lang-swap" id="lang-swap" title="Swap languages">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M7 16V4m0 12l-4-4m4 4l4-4M17 8v12m0-12l4 4m-4-4l-4 4"/>
+              </svg>
+            </div>
+            <div class="lang-select-wrap">
+              <label for="target-lang">To</label>
+              <select id="target-lang" class="lang-select">
+                <option value="Spanish" selected>Spanish</option>
+                <option value="French">French</option>
+                <option value="German">German</option>
+                <option value="Hindi">Hindi</option>
+                <option value="Portuguese">Portuguese</option>
+                <option value="Italian">Italian</option>
+                <option value="Japanese">Japanese</option>
+                <option value="Chinese">Chinese</option>
+                <option value="Arabic">Arabic</option>
+                <option value="Korean">Korean</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <button class="btn btn-primary btn-xl btn-full" id="translate-btn">
+            <span class="btn-text">Translate Video</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </button>
+          <p class="free-note" id="free-note">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            Your first video is <strong>completely free</strong> — no account required
+          </p>
+        </div>
+
+        <!-- Processing state -->
+        <div class="app-panel" id="app-processing" style="display:none">
+          <div class="processing-header">
+            <div class="processing-spinner"></div>
+            <h3>Translating your video...</h3>
+            <p id="processing-step">Initializing pipeline</p>
+          </div>
+
+          <div class="progress-bar-wrap">
+            <div class="progress-bar" id="progress-bar"></div>
+          </div>
+
+          <div class="terminal-mini">
+            <div class="terminal-bar">
+              <div class="terminal-dots">
+                <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+              </div>
+              <span class="terminal-title">pipeline output</span>
+            </div>
+            <div class="terminal-body terminal-scroll" id="processing-log"></div>
+          </div>
+        </div>
+
+        <!-- Result state -->
+        <div class="app-panel" id="app-result" style="display:none">
+          <div class="result-header">
+            <div class="result-check">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+                <path d="M22 4L12 14.01l-3-3"/>
+              </svg>
+            </div>
+            <h3>Translation complete!</h3>
+            <p id="result-meta">English → Spanish · Processed in 47s</p>
+          </div>
+
+          <div class="video-player-wrap">
+            <video id="result-video" controls playsinline class="result-video">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+
+          <div class="result-actions">
+            <a href="#" class="btn btn-primary btn-lg" id="download-btn" download>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+              </svg>
+              Download Video
+            </a>
+            <button class="btn btn-ghost btn-lg" id="new-video-btn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M5 12h14"/>
+              </svg>
+              Translate Another
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Pricing ───────────────────────────────────────── -->
+  <section id="pricing" class="section">
+    <div class="container">
+      <div class="section-label reveal">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+        </svg>
+        PRICING
+      </div>
+      <h2 class="section-title reveal">Simple, creator-friendly pricing</h2>
+      <p class="section-sub reveal">Start free. Scale when you're ready. Built for creators, not enterprises.</p>
+
+      <div class="pricing-grid">
+        <!-- Free -->
+        <div class="pricing-card reveal">
+          <div class="pricing-badge">Try it</div>
+          <h3 class="pricing-name">Free</h3>
+          <div class="pricing-price">
+            <span class="price-amount">$0</span>
+          </div>
+          <p class="pricing-desc">Perfect for trying out VideoVoice with your first video.</p>
+          <ul class="pricing-features">
+            <li>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              1 free video translation
+            </li>
+            <li>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              Up to 60 seconds
+            </li>
+            <li>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              All 23+ languages
+            </li>
+            <li>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              Full quality download
+            </li>
+          </ul>
+          <a href="#app" class="btn btn-ghost btn-full">Get started</a>
+        </div>
+
+        <!-- Starter -->
+        <div class="pricing-card pricing-popular reveal">
+          <div class="pricing-badge popular-badge">Most popular</div>
+          <h3 class="pricing-name">Starter</h3>
+          <div class="pricing-price">
+            <span class="price-amount">$4.99</span>
+            <span class="price-period">/month</span>
+          </div>
+          <p class="pricing-desc">For creators who need regular translations for their content.</p>
+          <ul class="pricing-features">
+            <li>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              10 videos per month
+            </li>
+            <li>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              Up to 60 seconds each
+            </li>
+            <li>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              Priority processing queue
+            </li>
+            <li>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              HD quality export
+            </li>
+            <li>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              Email support
+            </li>
+          </ul>
+          <a href="#" class="btn btn-primary btn-full" id="buy-starter">Get Starter</a>
+        </div>
+
+        <!-- Creator -->
+        <div class="pricing-card reveal">
+          <div class="pricing-badge">Best value</div>
+          <h3 class="pricing-name">Creator</h3>
+          <div class="pricing-price">
+            <span class="price-amount">$14.99</span>
+            <span class="price-period">/month</span>
+          </div>
+          <p class="pricing-desc">For professional creators and agencies scaling multilingual content.</p>
+          <ul class="pricing-features">
+            <li>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              50 videos per month
+            </li>
+            <li>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              Up to 60 seconds each
+            </li>
+            <li>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              Fastest processing
+            </li>
+            <li>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              All 23+ languages
+            </li>
+            <li>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              Priority support
+            </li>
+            <li>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              API access (coming soon)
+            </li>
+          </ul>
+          <a href="#" class="btn btn-ghost btn-full" id="buy-creator">Get Creator</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA ───────────────────────────────────────────── -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-card reveal">
+        <h2>Ready to break the language barrier?</h2>
+        <p>Translate your first video for free. No account needed. Takes under 2 minutes.</p>
+        <a href="#app" class="btn btn-primary btn-lg">
+          Try VideoVoice Now
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </a>
       </div>
     </div>
   </section>
@@ -156,10 +644,61 @@
   <!-- ── Footer ────────────────────────────────────────── -->
   <footer class="footer">
     <div class="container footer-inner">
-      <div class="nav-logo">🌐 VideoVoice</div>
-      <p>Built for the Hackathon · Track 3: Economic Empowerment &amp; Education</p>
+      <div class="footer-brand">
+        <a href="#" class="nav-logo">
+          <span class="logo-icon">▶</span>
+          <span class="logo-text">VideoVoice</span>
+        </a>
+        <p>AI-powered video translation with voice cloning.<br />Same creator. New language. Seconds.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Product</h4>
+          <a href="#how-it-works">How it works</a>
+          <a href="#demos">Demos</a>
+          <a href="#app">Try now</a>
+          <a href="#pricing">Pricing</a>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <a href="mailto:hello@videovoice.ai">hello@videovoice.ai</a>
+        </div>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>&copy; 2026 VideoVoice. All rights reserved.</p>
     </div>
   </footer>
+
+  <!-- ── Command Palette (⌘K) ──────────────────────────── -->
+  <div class="cmd-palette-overlay" id="cmd-palette-overlay">
+    <div class="cmd-palette">
+      <div class="cmd-search-wrap">
+        <svg class="cmd-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+        </svg>
+        <input type="text" class="cmd-search" id="cmd-search" placeholder="Search actions, navigate, set language..." autocomplete="off" />
+        <span class="cmd-kbd">ESC</span>
+      </div>
+      <div class="cmd-results" id="cmd-results"></div>
+      <div class="cmd-footer">
+        <div class="cmd-footer-keys">
+          <kbd>↑</kbd><kbd>↓</kbd> <span>to navigate</span>
+        </div>
+        <div class="cmd-footer-keys">
+          <kbd>↵</kbd> <span>to select</span>
+        </div>
+        <div class="cmd-footer-keys">
+          <kbd>esc</kbd> <span>to close</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="app.js"></script>
 </body>

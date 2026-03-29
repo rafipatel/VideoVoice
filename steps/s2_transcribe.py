@@ -16,7 +16,7 @@ MLX_MODEL = "mlx-community/whisper-medium-mlx"
 
 def _segments_from_pollinations(audio_path: str, language: str) -> list[dict]:
     """Call Pollinations Whisper API, return list of {start, end, text} segments."""
-    api_key = os.getenv("POLLEN_API_KEY", "")
+    api_key = os.getenv("POLLEN_API_KEY_SECONDARY") or os.getenv("POLLEN_API_KEY", "")
     headers = {"Authorization": f"Bearer {api_key}"}
 
     with open(audio_path, "rb") as f:

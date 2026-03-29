@@ -125,7 +125,6 @@ def synthesise_segments(
             exaggeration=0.5,
             temperature=0.8,
             cfg_weight=0.5,
-            max_new_tokens=max_tokens,
         )
 
         torchaudio.save(out_path, wav, model.sr)

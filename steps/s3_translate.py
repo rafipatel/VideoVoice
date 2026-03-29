@@ -14,7 +14,7 @@ MODEL = "openai"  # Pollinations routes this to GPT-4o
 
 
 def _build_client() -> OpenAI:
-    api_key = os.getenv("POLLEN_API_KEY", "pollinations")
+    api_key = os.getenv("POLLEN_API_KEY_SECONDARY") or os.getenv("POLLEN_API_KEY", "pollinations")
     return OpenAI(base_url=POLLINATIONS_BASE, api_key=api_key)
 
 

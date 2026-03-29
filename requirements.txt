@@ -6,4 +6,9 @@ pydub
 ffmpeg-python
 mlx-whisper
 tqdm
-gradio
+fastapi
+uvicorn[standard]
+python-multipart
+yt-dlp
+sse-starlette
+torchcodec

@@ -14,9 +14,10 @@ from pathlib import Path
 
 
 def _get_wav_duration(wav_path: str) -> float:
-    import torchaudio
-    info = torchaudio.info(wav_path)
-    return info.num_frames / info.sample_rate
+    with wave.open(wav_path, 'r') as f:
+        frames = f.getnframes()
+        rate = f.getframerate()
+        return frames / float(rate)
 
 
 def _speedup_audio(input_path: str, output_path: str, factor: float) -> None:
