@@ -74,6 +74,222 @@ const navObserver = new IntersectionObserver(
 sections.forEach((s) => navObserver.observe(s));
 
 // ════════════════════════════════════════════════════════
+// DEMO VIDEOS WALL (outputs/ + data)
+// ════════════════════════════════════════════════════════
+const demoVideosWall = $('#demo-videos-wall');
+const demoVideosLoading = $('#demo-videos-loading');
+const demoVideosError = $('#demo-videos-error');
+const demoVideosEmpty = $('#demo-videos-empty');
+const demoVideosLanes = $('#demo-videos-lanes');
+
+if (demoVideosWall && demoVideosLanes) {
+  loadDemoVideos();
+}
+
+async function loadDemoVideos() {
+  setDemoState('loading');
+
+  try {
+    const res = await fetch(`${API_BASE}/api/demo-videos`);
+    if (!res.ok) throw new Error('Failed to load demo videos');
+
+    const payload = await res.json();
+    const videos = Array.isArray(payload?.videos) ? payload.videos : [];
+
+    if (videos.length === 0) {
+      setDemoState('empty');
+      return;
+    }
+
+    renderDemoVideos(videos);
+    setDemoState('ready');
+    setupDemoPlaybackSync(demoVideosLanes);
+    setupDemoParallax(demoVideosWall, demoVideosLanes);
+  } catch (err) {
+    console.error(err);
+    setDemoState('error');
+  }
+}
+
+function setDemoState(state) {
+  if (!demoVideosLanes) return;
+  [demoVideosLoading, demoVideosError, demoVideosEmpty].forEach((el) => {
+    if (el) el.hidden = true;
+  });
+  demoVideosLanes.hidden = state !== 'ready';
+
+  if (state === 'loading' && demoVideosLoading) demoVideosLoading.hidden = false;
+  if (state === 'error' && demoVideosError) demoVideosError.hidden = false;
+  if (state === 'empty' && demoVideosEmpty) demoVideosEmpty.hidden = false;
+}
+
+function renderDemoVideos(videos) {
+  const lanes = [...demoVideosLanes.querySelectorAll('.demos-lane')];
+  if (lanes.length === 0) return;
+
+  lanes.forEach((lane) => (lane.innerHTML = ''));
+  demoVideosWall.classList.remove('parallax-enabled');
+
+  videos.forEach((video, idx) => {
+    const lane = lanes[idx % lanes.length];
+    lane.appendChild(createDemoCard(video));
+  });
+}
+
+function createDemoCard(videoData) {
+  const card = document.createElement('article');
+  card.className = 'demo-card';
+
+  const frame = document.createElement('div');
+  frame.className = 'demo-video-frame';
+
+  const video = document.createElement('video');
+  video.className = 'demo-video';
+  video.controls = true;
+  video.playsInline = true;
+  video.preload = 'metadata';
+  video.src = videoData.url;
+  video.setAttribute('playsinline', '');
+
+  const badge = document.createElement('div');
+  badge.className = 'demo-badge';
+  badge.textContent = (videoData.folder || 'demo').toUpperCase();
+
+  const info = document.createElement('div');
+  info.className = 'demo-info';
+
+  const title = document.createElement('h4');
+  title.textContent = formatDemoTitle(videoData.name || 'Video');
+
+  const meta = document.createElement('p');
+  meta.className = 'demo-meta';
+  meta.textContent = `${videoData.folder || 'demo'} • ${formatBytes(videoData.size_bytes)} • ${formatDemoDate(videoData.modified_at)}`;
+
+  frame.appendChild(video);
+  frame.appendChild(badge);
+  info.appendChild(title);
+  info.appendChild(meta);
+  card.appendChild(frame);
+  card.appendChild(info);
+  return card;
+}
+
+function formatDemoTitle(fileName) {
+  const withoutExt = String(fileName).replace(/\.[^/.]+$/, '');
+  const normalized = withoutExt.replace(/[_-]+/g, ' ').replace(/\s+/g, ' ').trim();
+  return normalized || String(fileName);
+}
+
+function formatBytes(bytes) {
+  const size = Number(bytes);
+  if (!Number.isFinite(size) || size <= 0) return 'Unknown size';
+  const units = ['B', 'KB', 'MB', 'GB'];
+  let value = size;
+  let unitIdx = 0;
+  while (value >= 1024 && unitIdx < units.length - 1) {
+    value /= 1024;
+    unitIdx += 1;
+  }
+  return `${value.toFixed(unitIdx === 0 ? 0 : 1)} ${units[unitIdx]}`;
+}
+
+function formatDemoDate(modifiedAt) {
+  const raw = Number(modifiedAt);
+  if (!Number.isFinite(raw) || raw <= 0) return 'Unknown date';
+  const ms = raw > 1e12 ? raw : raw * 1000;
+  const date = new Date(ms);
+  if (Number.isNaN(date.getTime())) return 'Unknown date';
+  return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+}
+
+function setupDemoPlaybackSync(container) {
+  if (!container || container.dataset.playbackSync === 'ready') return;
+  container.dataset.playbackSync = 'ready';
+
+  container.addEventListener(
+    'play',
+    (event) => {
+      const currentVideo = event.target;
+      if (!(currentVideo instanceof HTMLVideoElement) || !currentVideo.classList.contains('demo-video')) {
+        return;
+      }
+      container.querySelectorAll('.demo-video').forEach((video) => {
+        if (video !== currentVideo) video.pause();
+      });
+    },
+    true
+  );
+}
+
+function setupDemoParallax(wall, lanesContainer) {
+  const lanes = [...lanesContainer.querySelectorAll('.demos-lane')];
+  if (!wall || lanes.length === 0 || wall.dataset.parallaxReady === 'ready') return;
+  wall.dataset.parallaxReady = 'ready';
+
+  const mobileQuery = window.matchMedia('(max-width: 900px)');
+  const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const laneOffsets = [70, -100, 80];
+
+  let enabled = false;
+  let rafId = null;
+
+  const reset = () => {
+    lanes.forEach((lane) => {
+      lane.style.transform = 'translate3d(0, 0, 0)';
+    });
+  };
+
+  const applyParallax = () => {
+    rafId = null;
+    if (!enabled) return;
+
+    const rect = wall.getBoundingClientRect();
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+    const progress = (viewportHeight - rect.top) / (viewportHeight + rect.height);
+    const centered = Math.max(-1, Math.min(1, (progress - 0.5) * 2));
+
+    lanes.forEach((lane, idx) => {
+      const offset = centered * laneOffsets[idx % laneOffsets.length];
+      lane.style.transform = `translate3d(0, ${offset.toFixed(1)}px, 0)`;
+    });
+  };
+
+  const schedule = () => {
+    if (!enabled || rafId !== null) return;
+    rafId = requestAnimationFrame(applyParallax);
+  };
+
+  const evaluate = () => {
+    enabled = !mobileQuery.matches && !reducedMotionQuery.matches;
+    wall.classList.toggle('parallax-enabled', enabled);
+
+    if (!enabled) {
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
+      reset();
+      return;
+    }
+    schedule();
+  };
+
+  const bindMediaChange = (query, handler) => {
+    if (typeof query.addEventListener === 'function') {
+      query.addEventListener('change', handler);
+    } else if (typeof query.addListener === 'function') {
+      query.addListener(handler);
+    }
+  };
+
+  bindMediaChange(mobileQuery, evaluate);
+  bindMediaChange(reducedMotionQuery, evaluate);
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', schedule, { passive: true });
+  evaluate();
+}
+
+// ════════════════════════════════════════════════════════
 // TAB SWITCHING (URL / Upload)
 // ════════════════════════════════════════════════════════
 const tabBtns = $$('.tab-btn');
@@ -173,7 +389,7 @@ if (langSwap) {
     const tv = target.value;
     // Only swap if the value exists in both dropdowns
     if ([...source.options].some(o => o.value === tv) &&
-        [...target.options].some(o => o.value === sv)) {
+      [...target.options].some(o => o.value === sv)) {
       source.value = tv;
       target.value = sv;
     }
@@ -400,30 +616,37 @@ const cmdSearch = $('#cmd-search');
 const cmdResultsContainer = $('#cmd-results');
 
 const cmdActions = [
-  { group: 'Navigation', items: [
-    { label: 'Go to Home', icon: '🏠', action: () => scrollToSection('#hero') },
-    { label: 'How it Works', icon: '⚡', action: () => scrollToSection('#how-it-works') },
-    { label: 'See Demos', icon: '🎬', action: () => scrollToSection('#demos') },
-    { label: 'Try Now — Free', icon: '🚀', action: () => scrollToSection('#app') },
-    { label: 'View Pricing', icon: '💰', action: () => scrollToSection('#pricing') },
-  ]},
-  { group: 'Actions', items: [
-    { label: 'Upload Video', icon: '📤', action: () => { scrollToSection('#app'); setTimeout(() => { $('#tab-upload')?.click(); }, 400); } },
-    { label: 'Paste URL', icon: '🔗', action: () => { scrollToSection('#app'); setTimeout(() => { $('#tab-url')?.click(); }, 400); } },
-    { label: 'Toggle Dark Mode', icon: '🌙', hint: 'Already dark ✓', action: () => {} },
-  ]},
-  { group: 'Languages', items: [
-    { label: 'Translate to Spanish', icon: '🇪🇸', action: () => setLang('Spanish') },
-    { label: 'Translate to French', icon: '🇫🇷', action: () => setLang('French') },
-    { label: 'Translate to German', icon: '🇩🇪', action: () => setLang('German') },
-    { label: 'Translate to Hindi', icon: '🇮🇳', action: () => setLang('Hindi') },
-    { label: 'Translate to Japanese', icon: '🇯🇵', action: () => setLang('Japanese') },
-    { label: 'Translate to Chinese', icon: '🇨🇳', action: () => setLang('Chinese') },
-    { label: 'Translate to Arabic', icon: '🇸🇦', action: () => setLang('Arabic') },
-    { label: 'Translate to Korean', icon: '🇰🇷', action: () => setLang('Korean') },
-    { label: 'Translate to Portuguese', icon: '🇧🇷', action: () => setLang('Portuguese') },
-    { label: 'Translate to Italian', icon: '🇮🇹', action: () => setLang('Italian') },
-  ]},
+  {
+    group: 'Navigation', items: [
+      { label: 'Go to Home', icon: '🏠', action: () => scrollToSection('#hero') },
+      { label: 'How it Works', icon: '⚡', action: () => scrollToSection('#how-it-works') },
+      { label: 'See Demos', icon: '🎬', action: () => scrollToSection('#demos') },
+      { label: 'Try Now — Free', icon: '🚀', action: () => scrollToSection('#app') },
+      { label: 'View Pricing', icon: '💰', action: () => scrollToSection('#pricing') },
+    ]
+  },
+  {
+    group: 'Actions', items: [
+      { label: 'Upload Video', icon: '📤', action: () => { scrollToSection('#app'); setTimeout(() => { $('#tab-upload')?.click(); }, 400); } },
+      { label: 'Paste URL', icon: '🔗', action: () => { scrollToSection('#app'); setTimeout(() => { $('#tab-url')?.click(); }, 400); } },
+      { label: 'Toggle Dark Mode', icon: '🌙', hint: 'Already dark ✓', action: () => { } },
+    ]
+  },
+  {
+    group: 'Languages', items: [
+      { label: 'Translate to English', icon: '🇬🇧', action: () => setLang('English') },
+      { label: 'Translate to Spanish', icon: '🇪🇸', action: () => setLang('Spanish') },
+      { label: 'Translate to French', icon: '🇫🇷', action: () => setLang('French') },
+      { label: 'Translate to German', icon: '🇩🇪', action: () => setLang('German') },
+      { label: 'Translate to Hindi', icon: '🇮🇳', action: () => setLang('Hindi') },
+      { label: 'Translate to Japanese', icon: '🇯🇵', action: () => setLang('Japanese') },
+      { label: 'Translate to Chinese', icon: '🇨🇳', action: () => setLang('Chinese') },
+      { label: 'Translate to Arabic', icon: '🇸🇦', action: () => setLang('Arabic') },
+      { label: 'Translate to Korean', icon: '🇰🇷', action: () => setLang('Korean') },
+      { label: 'Translate to Portuguese', icon: '🇧🇷', action: () => setLang('Portuguese') },
+      { label: 'Translate to Italian', icon: '🇮🇹', action: () => setLang('Italian') },
+    ]
+  },
 ];
 
 function setLang(lang) {

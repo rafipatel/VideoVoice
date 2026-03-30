@@ -5,8 +5,11 @@ Endpoints:
   POST /api/jobs          — Submit a video for translation (file upload or URL)
   GET  /api/jobs/{id}     — SSE stream of pipeline progress
   GET  /api/jobs/{id}/result — Download the translated video
+  GET  /api/demo-videos   — List available demo videos (outputs + data)
+  GET  /api/demo-videos/{video_id}/stream — Stream demo video by ID
 """
 import asyncio
+import hashlib
 import os
 import shutil
 import time
@@ -43,6 +46,10 @@ UPLOAD_DIR = Path("uploads")
 OUTPUT_DIR = Path("outputs")
 UPLOAD_DIR.mkdir(exist_ok=True)
 OUTPUT_DIR.mkdir(exist_ok=True)
+DEMO_VIDEO_DIRS = {
+    "outputs": OUTPUT_DIR,
+    "data": Path("data"),
+}
 
 
 # ── Helpers ────────────────────────────────────────────
@@ -66,6 +73,49 @@ def _download_url(url: str, dest: str) -> str:
     if result.returncode != 0:
         raise RuntimeError(f"yt-dlp failed: {result.stderr[:300]}")
     return dest
+
+
+def _demo_video_id(folder: str, filename: str) -> str:
+    """Generate a stable opaque ID for a whitelisted demo video."""
+    raw = f"{folder}/{filename}".encode("utf-8")
+    return hashlib.sha256(raw).hexdigest()[:20]
+
+
+def _collect_demo_videos():
+    """Discover demo videos and return (metadata list, id -> path lookup)."""
+    videos = []
+    video_lookup = {}
+
+    for folder, directory in DEMO_VIDEO_DIRS.items():
+        if not directory.exists() or not directory.is_dir():
+            continue
+
+        for file_path in directory.iterdir():
+            if not file_path.is_file() or file_path.suffix.lower() != ".mp4":
+                continue
+
+            stat = file_path.stat()
+            video_id = _demo_video_id(folder, file_path.name)
+            videos.append(
+                {
+                    "id": video_id,
+                    "name": file_path.name,
+                    "url": f"/api/demo-videos/{video_id}/stream",
+                    "folder": folder,
+                    "size_bytes": stat.st_size,
+                    "modified_at": int(stat.st_mtime),
+                }
+            )
+            video_lookup[video_id] = file_path
+
+    videos.sort(
+        key=lambda item: (
+            item["name"].lower(),
+            item["folder"].lower(),
+            item["url"].lower(),
+        )
+    )
+    return videos, video_lookup
 
 
 async def _run_pipeline_async(job_id: str, video_path: str, target_lang: str, source_lang: str):
@@ -120,6 +170,28 @@ async def _run_pipeline_async(job_id: str, video_path: str, target_lang: str, so
 
 
 # ── Routes ─────────────────────────────────────────────
+
+@app.get("/api/demo-videos")
+async def list_demo_videos():
+    """List whitelisted MP4 demo videos from outputs/ and data/."""
+    videos, _ = _collect_demo_videos()
+    return JSONResponse({"videos": videos})
+
+
+@app.get("/api/demo-videos/{video_id}/stream")
+async def stream_demo_video(video_id: str):
+    """Stream a demo video by opaque ID (no client-provided path)."""
+    _, video_lookup = _collect_demo_videos()
+    video_path = video_lookup.get(video_id)
+    if not video_path:
+        raise HTTPException(404, "Demo video not found.")
+
+    return FileResponse(
+        str(video_path),
+        media_type="video/mp4",
+        filename=video_path.name,
+    )
+
 
 @app.post("/api/jobs")
 async def create_job(

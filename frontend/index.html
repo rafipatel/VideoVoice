@@ -32,7 +32,10 @@
         <a href="#demos">Demos</a>
         <a href="#pricing">Pricing</a>
         <a href="#" class="cmd-trigger-btn" id="cmd-trigger" title="Search (⌘K)">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <path d="M21 21l-4.35-4.35" />
+          </svg>
           <span class="cmd-trigger-kbd">⌘K</span>
         </a>
         <a href="#app" class="btn btn-primary btn-sm">Try Now — Free</a>
@@ -95,18 +98,26 @@
           </div>
         </div>
         <div class="terminal-body" id="hero-terminal">
-          <div class="terminal-line"><span class="t-step">STEP 1/6</span> <span class="t-muted">Extracting audio from video...</span></div>
+          <div class="terminal-line"><span class="t-step">STEP 1/6</span> <span class="t-muted">Extracting audio from
+              video...</span></div>
           <div class="terminal-line"><span class="t-check">✓</span> Audio extracted — 16kHz mono WAV</div>
-          <div class="terminal-line"><span class="t-step">STEP 2/6</span> <span class="t-muted">Transcribing with Whisper Large V3...</span></div>
+          <div class="terminal-line"><span class="t-step">STEP 2/6</span> <span class="t-muted">Transcribing with
+              Whisper Large V3...</span></div>
           <div class="terminal-line"><span class="t-check">✓</span> 8 segments transcribed</div>
-          <div class="terminal-line"><span class="t-step">STEP 3/6</span> <span class="t-muted">Translating to Spanish...</span></div>
+          <div class="terminal-line"><span class="t-step">STEP 3/6</span> <span class="t-muted">Translating to
+              Spanish...</span></div>
           <div class="terminal-line"><span class="t-check">✓</span> Translation complete</div>
-          <div class="terminal-line"><span class="t-step">STEP 4/6</span> <span class="t-muted">Voice cloning + TTS synthesis...</span></div>
-          <div class="terminal-line"><span class="t-check">✓</span> 8 segments synthesised (Chatterbox Multilingual)</div>
-          <div class="terminal-line"><span class="t-step">STEP 5/6</span> <span class="t-muted">Syncing audio to original timestamps...</span></div>
+          <div class="terminal-line"><span class="t-step">STEP 4/6</span> <span class="t-muted">Voice cloning + TTS
+              synthesis...</span></div>
+          <div class="terminal-line"><span class="t-check">✓</span> 8 segments synthesised (Chatterbox Multilingual)
+          </div>
+          <div class="terminal-line"><span class="t-step">STEP 5/6</span> <span class="t-muted">Syncing audio to
+              original timestamps...</span></div>
           <div class="terminal-line"><span class="t-check">✓</span> Audio synced — frame-accurate alignment</div>
-          <div class="terminal-line"><span class="t-step">STEP 6/6</span> <span class="t-muted">Merging translated audio into video...</span></div>
-          <div class="terminal-line complete"><span class="t-done">✅</span> Done! Video translated to Spanish in 47s</div>
+          <div class="terminal-line"><span class="t-step">STEP 6/6</span> <span class="t-muted">Merging translated audio
+              into video...</span></div>
+          <div class="terminal-line complete"><span class="t-done">✅</span> Done! Video translated to Spanish in 47s
+          </div>
         </div>
       </div>
     </div>
@@ -179,7 +190,8 @@
             </svg>
           </div>
           <h3>AI Translates & Clones</h3>
-          <p>Our pipeline transcribes, translates, and synthesizes new speech using a voice clone of the original speaker.</p>
+          <p>Our pipeline transcribes, translates, and synthesizes new speech using a voice clone of the original
+            speaker.</p>
         </div>
 
         <div class="step-connector reveal">
@@ -263,59 +275,22 @@
       <h2 class="section-title reveal">See it in action</h2>
       <p class="section-sub reveal">Real translations. Same voice. Different language.</p>
 
-      <div class="demos-grid">
-        <div class="demo-card reveal">
-          <div class="demo-video-placeholder">
-            <div class="demo-play-btn">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
-                <polygon points="5 3 19 12 5 21 5 3" />
-              </svg>
-            </div>
-            <div class="demo-badge">English → Spanish</div>
-          </div>
-          <div class="demo-info">
-            <h4>Tech Tutorial</h4>
-            <p>Educational content translated with voice preservation</p>
-          </div>
+      <div class="demos-wall reveal" id="demo-videos-wall" aria-live="polite">
+        <div class="demos-state demos-state-loading" id="demo-videos-loading">
+          Loading demo videos...
         </div>
-
-        <div class="demo-card reveal">
-          <div class="demo-video-placeholder">
-            <div class="demo-play-btn">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
-                <polygon points="5 3 19 12 5 21 5 3" />
-              </svg>
-            </div>
-            <div class="demo-badge">English → French</div>
-          </div>
-          <div class="demo-info">
-            <h4>Product Review</h4>
-            <p>Short-form content ready for global audiences</p>
-          </div>
+        <div class="demos-state demos-state-error" id="demo-videos-error" hidden>
+          Could not load demo videos right now.
         </div>
-
-        <div class="demo-card reveal">
-          <div class="demo-video-placeholder">
-            <div class="demo-play-btn">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
-                <polygon points="5 3 19 12 5 21 5 3" />
-              </svg>
-            </div>
-            <div class="demo-badge">English → Hindi</div>
-          </div>
-          <div class="demo-info">
-            <h4>Cooking Short</h4>
-            <p>Cultural content that resonates in any language</p>
-          </div>
+        <div class="demos-state demos-state-empty" id="demo-videos-empty" hidden>
+          No demo videos are available yet.
+        </div>
+        <div class="demos-lanes" id="demo-videos-lanes" hidden>
+          <div class="demos-lane" data-lane="0"></div>
+          <div class="demos-lane" data-lane="1"></div>
+          <div class="demos-lane" data-lane="2"></div>
         </div>
       </div>
-
-      <p class="demos-coming">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
-        </svg>
-        Demo videos coming soon — check back for real before & after comparisons
-      </p>
     </div>
   </section>
 
@@ -324,12 +299,14 @@
     <div class="container">
       <div class="section-label reveal">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+          <path
+            d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" />
         </svg>
         TRY IT NOW
       </div>
       <h2 class="section-title reveal">Translate your first video — free</h2>
-      <p class="section-sub reveal">No account needed. Paste a link or upload a file. Get your translated video in under 2 minutes.</p>
+      <p class="section-sub reveal">No account needed. Paste a link or upload a file. Get your translated video in under
+        2 minutes.</p>
 
       <div class="app-container state-input reveal">
         <!-- Input state -->
@@ -338,14 +315,14 @@
           <div class="input-tabs">
             <button class="tab-btn active" data-tab="url" id="tab-url">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/>
-                <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/>
+                <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" />
+                <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" />
               </svg>
               Paste URL
             </button>
             <button class="tab-btn" data-tab="upload" id="tab-upload">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" />
               </svg>
               Upload File
             </button>
@@ -358,11 +335,17 @@
                 placeholder="Paste Instagram Reel or YouTube Short URL..." autocomplete="off" />
               <div class="url-platforms">
                 <span class="platform-tag">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/></svg>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                      d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z" />
+                  </svg>
                   Instagram Reels
                 </span>
                 <span class="platform-tag">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                      d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                  </svg>
                   YouTube Shorts
                 </span>
               </div>
@@ -383,8 +366,8 @@
               </div>
               <div class="drop-zone-file" id="file-preview" style="display:none">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <polygon points="23 7 16 12 23 17 23 7"/>
-                  <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                  <polygon points="23 7 16 12 23 17 23 7" />
+                  <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
                 </svg>
                 <span id="file-name">video.mp4</span>
                 <button class="file-remove" id="file-remove" aria-label="Remove file">✕</button>
@@ -411,12 +394,13 @@
             </div>
             <div class="lang-swap" id="lang-swap" title="Swap languages">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M7 16V4m0 12l-4-4m4 4l4-4M17 8v12m0-12l4 4m-4-4l-4 4"/>
+                <path d="M7 16V4m0 12l-4-4m4 4l4-4M17 8v12m0-12l4 4m-4-4l-4 4" />
               </svg>
             </div>
             <div class="lang-select-wrap">
               <label for="target-lang">To</label>
               <select id="target-lang" class="lang-select">
+                <option value="en" selected>English</option>
                 <option value="Spanish" selected>Spanish</option>
                 <option value="French">French</option>
                 <option value="German">German</option>
@@ -441,7 +425,7 @@
           </button>
           <p class="free-note" id="free-note">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
             </svg>
             Your first video is <strong>completely free</strong> — no account required
           </p>
@@ -478,39 +462,39 @@
             <div class="skel-bar" style="height: 380px; border-radius: 16px; margin-bottom: 24px;"></div>
             <div class="skel-bar" style="height: 56px; border-radius: 12px;"></div>
           </div>
-          
+
           <div class="result-content-wrap" style="display:none">
             <div class="result-header">
-            <div class="result-check">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
-                <path d="M22 4L12 14.01l-3-3"/>
-              </svg>
+              <div class="result-check">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+                  <path d="M22 4L12 14.01l-3-3" />
+                </svg>
+              </div>
+              <h3>Translation complete!</h3>
+              <p id="result-meta">English → Spanish · Processed in 47s</p>
             </div>
-            <h3>Translation complete!</h3>
-            <p id="result-meta">English → Spanish · Processed in 47s</p>
-          </div>
 
-          <div class="video-player-wrap">
-            <video id="result-video" controls playsinline class="result-video">
-              Your browser does not support the video tag.
-            </video>
-          </div>
+            <div class="video-player-wrap">
+              <video id="result-video" controls playsinline class="result-video">
+                Your browser does not support the video tag.
+              </video>
+            </div>
 
-          <div class="result-actions">
-            <a href="#" class="btn btn-primary btn-lg" id="download-btn" download>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
-              </svg>
-              Download Video
-            </a>
-            <button class="btn btn-ghost btn-lg" id="new-video-btn">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 5v14M5 12h14"/>
-              </svg>
-              Translate Another
-            </button>
-          </div>
+            <div class="result-actions">
+              <a href="#" class="btn btn-primary btn-lg" id="download-btn" download>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" />
+                </svg>
+                Download Video
+              </a>
+              <button class="btn btn-ghost btn-lg" id="new-video-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 5v14M5 12h14" />
+                </svg>
+                Translate Another
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -522,7 +506,8 @@
     <div class="container">
       <div class="section-label reveal">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+          <line x1="12" y1="1" x2="12" y2="23" />
+          <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" />
         </svg>
         PRICING
       </div>
@@ -540,19 +525,27 @@
           <p class="pricing-desc">Perfect for trying out VideoVoice with your first video.</p>
           <ul class="pricing-features">
             <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M20 6L9 17l-5-5" />
+              </svg>
               1 free video translation
             </li>
             <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M20 6L9 17l-5-5" />
+              </svg>
               Up to 60 seconds
             </li>
             <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M20 6L9 17l-5-5" />
+              </svg>
               All 23+ languages
             </li>
             <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M20 6L9 17l-5-5" />
+              </svg>
               Full quality download
             </li>
           </ul>
@@ -570,23 +563,33 @@
           <p class="pricing-desc">For creators who need regular translations for their content.</p>
           <ul class="pricing-features">
             <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M20 6L9 17l-5-5" />
+              </svg>
               10 videos per month
             </li>
             <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M20 6L9 17l-5-5" />
+              </svg>
               Up to 60 seconds each
             </li>
             <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M20 6L9 17l-5-5" />
+              </svg>
               Priority processing queue
             </li>
             <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M20 6L9 17l-5-5" />
+              </svg>
               HD quality export
             </li>
             <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M20 6L9 17l-5-5" />
+              </svg>
               Email support
             </li>
           </ul>
@@ -604,27 +607,39 @@
           <p class="pricing-desc">For professional creators and agencies scaling multilingual content.</p>
           <ul class="pricing-features">
             <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M20 6L9 17l-5-5" />
+              </svg>
               50 videos per month
             </li>
             <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M20 6L9 17l-5-5" />
+              </svg>
               Up to 60 seconds each
             </li>
             <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M20 6L9 17l-5-5" />
+              </svg>
               Fastest processing
             </li>
             <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M20 6L9 17l-5-5" />
+              </svg>
               All 23+ languages
             </li>
             <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M20 6L9 17l-5-5" />
+              </svg>
               Priority support
             </li>
             <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M20 6L9 17l-5-5" />
+              </svg>
               API access (coming soon)
             </li>
           </ul>
@@ -688,10 +703,13 @@
   <div class="cmd-palette-overlay" id="cmd-palette-overlay">
     <div class="cmd-palette">
       <div class="cmd-search-wrap">
-        <svg class="cmd-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+        <svg class="cmd-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2">
+          <circle cx="11" cy="11" r="8" />
+          <path d="M21 21l-4.35-4.35" />
         </svg>
-        <input type="text" class="cmd-search" id="cmd-search" placeholder="Search actions, navigate, set language..." autocomplete="off" />
+        <input type="text" class="cmd-search" id="cmd-search" placeholder="Search actions, navigate, set language..."
+          autocomplete="off" />
         <span class="cmd-kbd">ESC</span>
       </div>
       <div class="cmd-results" id="cmd-results"></div>
